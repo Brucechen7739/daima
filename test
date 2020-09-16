@@ -1,0 +1,120 @@
+package com.gd.business.druidEncrypt;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.sun.javafx.collections.MappingChange;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+public class JsonJava {
+
+    public static void main(String[] args) {
+       String json="{\n" +
+               "    \"code\":1,\n" +
+               "    \"msg\":\"请求成功!\",\n" +
+               "    \"data\":{\n" +
+               "        \"list\":{\n" +
+               "            \"380\":{\n" +
+               "                \"id\":380,\n" +
+               "                \"parent_id\":1,\n" +
+               "                \"list_order\":0,\n" +
+               "                \"name\":\"哇哈哈哈\",\n" +
+               "                \"status\":1,\n" +
+               "                \"user_id\":674,\n" +
+               "                \"_level\":0,\n" +
+               "                \"children\":{\n" +
+               "                    \"381\":{\n" +
+               "                        \"id\":381,\n" +
+               "                        \"parent_id\":380,\n" +
+               "                        \"list_order\":0,\n" +
+               "                        \"name\":\"KKK\",\n" +
+               "                        \"status\":1,\n" +
+               "                        \"user_id\":674,\n" +
+               "                        \"_level\":1,\n" +
+               "                        \"children\":{\n" +
+               "                            \"427\":{\n" +
+               "                                \"id\":427,\n" +
+               "                                \"parent_id\":381,\n" +
+               "                                \"list_order\":0,\n" +
+               "                                \"name\":\"1\",\n" +
+               "                                \"status\":1,\n" +
+               "                                \"user_id\":674,\n" +
+               "                                \"_level\":2,\n" +
+               "                                \"children\":[\n" +
+               "\n" +
+               "                                ]\n" +
+               "                            }\n" +
+               "                        }\n" +
+               "                    },\n" +
+               "                    \"382\":{\n" +
+               "                        \"id\":382,\n" +
+               "                        \"parent_id\":380,\n" +
+               "                        \"list_order\":0,\n" +
+               "                        \"name\":\"1111\",\n" +
+               "                        \"status\":1,\n" +
+               "                        \"user_id\":674,\n" +
+               "                        \"_level\":1,\n" +
+               "                        \"children\":{\n" +
+               "                            \"428\":{\n" +
+               "                                \"id\":428,\n" +
+               "                                \"parent_id\":382,\n" +
+               "                                \"list_order\":0,\n" +
+               "                                \"name\":\"1222\",\n" +
+               "                                \"status\":1,\n" +
+               "                                \"user_id\":674,\n" +
+               "                                \"_level\":2,\n" +
+               "                                \"children\":{\n" +
+               "                                    \"429\":{\n" +
+               "                                        \"id\":429,\n" +
+               "                                        \"parent_id\":428,\n" +
+               "                                        \"list_order\":0,\n" +
+               "                                        \"name\":\"333\",\n" +
+               "                                        \"status\":1,\n" +
+               "                                        \"user_id\":674,\n" +
+               "                                        \"_level\":3,\n" +
+               "                                        \"children\":[\n" +
+               "\n" +
+               "                                        ]\n" +
+               "                                    }\n" +
+               "                                }\n" +
+               "                            }\n" +
+               "                        }\n" +
+               "                    }\n" +
+               "                }\n" +
+               "            }\n" +
+               "        }\n" +
+               "    }\n" +
+               "}\n";
+       //转换成Map
+        JSONObject jsonValue= (JSONObject) JSONObject.parse(json);
+        //获取数据
+        List  list= returnList((Map)((Map) jsonValue.get("data")).get("list"));
+
+        System.out.println(list.toString());
+
+
+    }
+    //递归处理数据
+    public static List<Map> returnList(Map map){
+        List<Map> values=new ArrayList<>();
+        //设置flag
+        Boolean flag=true;
+
+            for(Object key:map.keySet()){//keySet获取map集合key的集合  然后在遍历key即可
+                values.add((Map) map.get(key));
+                //处理数据
+                if( ((Map) map.get(key)).get("children") instanceof JSONObject){
+                    //递归
+                    values.addAll(returnList((Map)((Map) map.get(key)).get("children")));
+                }
+
+            }
+
+        return values;
+    }
+
+
+
+
+}
